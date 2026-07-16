@@ -1,1 +1,2 @@
-Fix: Remove comments from packages.txt
+"Remove packages.txt (not needed)"
+"Commit changes"
