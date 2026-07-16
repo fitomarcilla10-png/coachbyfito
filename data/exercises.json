@@ -1,0 +1,353 @@
+{
+  "exercises": {
+    "calentamiento": [
+      {
+        "id": "cal_001",
+        "name": "Carrera suave con cambios de dirección",
+        "category": ["iniciacion", "infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Carrera alrededor de la pista con cambios de dirección cada 20 metros",
+        "explanation": "Los jugadores corren suavemente alrededor de la pista. Cada 20 metros deben realizar un cambio de dirección (giro de 90 grados). Este ejercicio mejora la coordinación, la agilidad y prepara el cuerpo para esfuerzos más intensos.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 10,
+        "equipment": ["pista", "conos"],
+        "focus": ["cardio", "agilidad", "coordinacion"]
+      },
+      {
+        "id": "cal_002",
+        "name": "Estiramientos dinámicos",
+        "category": ["iniciacion", "infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Series de estiramientos dinámicos para todas las articulaciones principales",
+        "explanation": "Realizar movimientos controlados que llevan las articulaciones a través de su rango completo de movimiento. Incluir: rotaciones de brazos, piernas, cuello, tobillos. Previene lesiones y mejora la movilidad.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 8,
+        "equipment": [],
+        "focus": ["movilidad", "prevencion_lesiones"]
+      },
+      {
+        "id": "cal_003",
+        "name": "Dribbling en movimiento",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Dribbling mientras se camina y luego corre alrededor de la pista",
+        "explanation": "Comenzar caminando mientras se dribla con ambas manos. Progresar a carrera suave, luego a velocidad moderada. Cambiar de mano cada 10 metros. Mejora el control del balón en movimiento.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 12,
+        "equipment": ["balones"],
+        "focus": ["dribbling", "coordinacion"]
+      }
+    ],
+    "tecnica": [
+      {
+        "id": "tec_001",
+        "name": "Lanzamiento desde parado",
+        "category": ["iniciacion", "infantil", "cadete"],
+        "level": ["principiante"],
+        "description": "Lanzamientos a canasta desde diferentes posiciones cercanas al aro",
+        "explanation": "Posicionarse a 1-2 metros del aro. Realizar lanzamientos con técnica correcta: pies separados, rodillas flexionadas, brazo en forma de L, seguir con el movimiento. Realizar 20 lanzamientos desde 5 posiciones diferentes.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 15,
+        "equipment": ["balones", "canasta"],
+        "focus": ["lanzamiento", "tecnica_base"]
+      },
+      {
+        "id": "tec_002",
+        "name": "Dribbling estacionario",
+        "category": ["iniciacion", "infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Dribbling en el sitio con ambas manos y diferentes alturas",
+        "explanation": "Driblar con la mano derecha a diferentes alturas (rodillas, cintura, hombros). Repetir con mano izquierda. Luego alternar manos rápidamente. Para niveles avanzados, incluir crossover y entre las piernas.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 10,
+        "equipment": ["balones"],
+        "focus": ["dribbling", "control_balón"]
+      },
+      {
+        "id": "tec_003",
+        "name": "Pase y recepción",
+        "category": ["iniciacion", "infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Pares de jugadores practican diferentes tipos de pases",
+        "explanation": "En parejas a 3-5 metros de distancia, practicar: pase de pecho, pase picado, pase de béisbol, pase por encima de la cabeza. 10 pases de cada tipo. Enfocarse en la mecánica correcta y la recepción con manos en forma de W.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 12,
+        "equipment": ["balones"],
+        "focus": ["pase", "recepcion", "tecnica"]
+      },
+      {
+        "id": "tec_004",
+        "name": "Lanzamiento en movimiento",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Lanzamientos después de driblar o recibir pase en movimiento",
+        "explanation": "Realizar 1-2 dribbles hacia la canasta y lanzar. Luego recibir pase en movimiento y lanzar en un paso. Finalizar con layups de ambos lados. Enfocarse en el ritmo y la coordinación.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 15,
+        "equipment": ["balones", "canasta"],
+        "focus": ["lanzamiento", "movimiento", "coordinacion"]
+      },
+      {
+        "id": "tec_005",
+        "name": "Dribbling con obstáculos",
+        "category": ["cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Dribbling entre conos con cambios de mano y dirección",
+        "explanation": "Colocar conos en línea o zigzag. Driblar entre ellos usando cambios de mano, crossover, entre las piernas, y por detrás de la espalda. Mantener la cabeza alta y controlar el balón con la mano opuesta a la dirección del movimiento.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 12,
+        "equipment": ["balones", "conos"],
+        "focus": ["dribbling", "agilidad", "control"]
+      },
+      {
+        "id": "tec_006",
+        "name": "Tiro libre",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Serie de tiros libres con técnica y concentración",
+        "explanation": "Realizar series de 10 tiros libres. Enfocarse en la rutina previa al tiro: posición de pies, agarre del balón, elevación, seguimiento. Registrar porcentaje de aciertos y buscar consistencia.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 10,
+        "equipment": ["balones", "canasta"],
+        "focus": ["tiro_libre", "concentracion", "tecnica"]
+      }
+    ],
+    "tactica": [
+      {
+        "id": "tac_001",
+        "name": "Pasar y cortar",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio"],
+        "description": "Jugadores pasan el balón y cortan hacia la canasta",
+        "explanation": "En grupos de 3-4 jugadores. El jugador con balón pasa a un compañero y corta hacia la canasta para recibir y finalizar. Rotar posiciones. Enseña movimiento sin balón y conceptos básicos de ataque.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 15,
+        "equipment": ["balones", "canasta"],
+        "focus": ["ataque", "corte", "pase"]
+      },
+      {
+        "id": "tac_002",
+        "name": "Defensa 1 contra 1",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Situaciones de 1v1 en media pista",
+        "explanation": "Un atacante con balón intenta anotar contra un defensor. El defensor debe mantener posición, no permitir penetración fácil y contestar el tiro. Rotar roles. Enseña defensa individual y lectura del ataque.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 20,
+        "equipment": ["balones", "canasta"],
+        "focus": ["defensa", "1v1", "lectura_juego"]
+      },
+      {
+        "id": "tac_003",
+        "name": "Bloqueos y cortes",
+        "category": ["cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Práctica de bloqueos directos e indirectos con cortes correspondientes",
+        "explanation": "Practicar bloqueos directos (screen on ball) e indirectos (off-ball). El bloqueador debe hacer contacto legal, el receptor debe usar el bloqueo correctamente. Incluir cortes de vuelta y pop. Fundamental para el ataque de equipo.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 20,
+        "equipment": ["balones", "canasta"],
+        "focus": ["bloqueos", "cortes", "ataque_equipo"]
+      },
+      {
+        "id": "tac_004",
+        "name": "Defensa de zona básica",
+        "category": ["cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Posicionamiento y rotación en defensa 2-3 o 3-2",
+        "explanation": "Enseñar posiciones básicas de defensa de zona. Practicar rotaciones cuando el balón se mueve. Enseñar comunicación y responsabilidad de área. Atacantes pasan el balón mientras defensores rotan.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 25,
+        "equipment": ["balones", "canasta"],
+        "focus": ["defensa_zona", "rotacion", "comunicacion"]
+      },
+      {
+        "id": "tac_005",
+        "name": "Juego 3 contra 3",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Partidos reducidos en media pista",
+        "explanation": "Juegos 3v3 en media pista. Fomentar el uso de pases, cortes y bloqueos aprendidos. Enseñar espacio, lectura del juego y toma de decisiones. Rotar equipos cada 5-7 puntos.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 25,
+        "equipment": ["balones", "canasta"],
+        "focus": ["juego_reducido", "toma_decisiones", "trabajo_equipo"]
+      },
+      {
+        "id": "tac_006",
+        "name": "Transición rápida",
+        "category": ["junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Contraataque después de rebote o robo de balón",
+        "explanation": "Practicar transición rápida después de rebote defensivo o robo. El primer pase debe ser rápido, correr las pistas, llenar los carriles, y finalizar con ventaja numérica. Enseña ritmo y decisión rápida.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 20,
+        "equipment": ["balones", "canasta"],
+        "focus": ["transicion", "contraataque", "ritmo"]
+      }
+    ],
+    "fisico": [
+      {
+        "id": "fis_001",
+        "name": "Sprints de pista",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Series de sprints de diferentes distancias",
+        "explanation": "Realizar sprints de: 10m x 8, 20m x 6, 40m x 4. Descanso completo entre series. Para principiantes, enfocarse en técnica de carrera. Para avanzados, reducir tiempo de descanso progresivamente.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 15,
+        "equipment": ["pista", "cronometro"],
+        "focus": ["velocidad", "resistencia", "explosividad"]
+      },
+      {
+        "id": "fis_002",
+        "name": "Saltos pliométricos",
+        "category": ["cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Ejercicios de salto para mejorar potencia vertical",
+        "explanation": "Incluir: saltos verticales, saltos con caja, saltos laterales, drop jumps. 3 series de 8-10 repeticiones cada ejercicio. Importante aterrizaje suave. Mejora potencia de salto y capacidad de rebote.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 12,
+        "equipment": ["caja_pliometrica", "conos"],
+        "focus": ["potencia", "salto", "explosividad"]
+      },
+      {
+        "id": "fis_003",
+        "name": "Circuito de resistencia",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Circuito con ejercicios de resistencia cardiovascular",
+        "explanation": "Circuito de 6 estaciones: jumping jacks, mountain climbers, burpees, saltos de cuerda, sprints en el sitio, sentadillas con salto. 30 segundos trabajo, 15 segundos descanso. 3-4 vueltas completas.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 20,
+        "equipment": [],
+        "focus": ["resistencia", "cardio", "condicion_fisico"]
+      },
+      {
+        "id": "fis_004",
+        "name": "Fuerza de piernas",
+        "category": ["junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Ejercicios de fuerza para piernas y core",
+        "explanation": "Sentadillas, zancadas, peso muerto (con peso corporal o ligero), puente de glúteos, planchas. 3 series de 12-15 repeticiones. Fundamental para estabilidad, potencia y prevención de lesiones.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 15,
+        "equipment": ["pesos", "bandas_elasticas"],
+        "focus": ["fuerza", "piernas", "core"]
+      },
+      {
+        "id": "fis_005",
+        "name": "Agilidad con escalera",
+        "category": ["iniciacion", "infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Ejercicios de coordinación y agilidad con escalera de agilidad",
+        "explanation": "Diferentes patrones a través de la escalera: un pie por casilla, dos pies, lateral, crossover, in-out. 3 series de cada patrón. Mejora coordinación, agilidad y velocidad de pies.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 10,
+        "equipment": ["escalera_agilidad"],
+        "focus": ["agilidad", "coordinacion", "velocidad_pies"]
+      }
+    ],
+    "juego": [
+      {
+        "id": "jue_001",
+        "name": "Partido 5 contra 5",
+        "category": ["infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Partido completo aplicando conceptos aprendidos",
+        "explanation": "Partido regulado con reglas adaptadas según categoría. Enfatizar el uso de conceptos tácticos aprendidos. Para principiantes, enfocarse en disfrute y participación. Para avanzados, implementar sistemas ofensivos y defensivos.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 30,
+        "equipment": ["balones", "canastas", "camisetas"],
+        "focus": ["juego_completo", "aplicacion_conceptos", "competencia"]
+      },
+      {
+        "id": "jue_002",
+        "name": "Situaciones especiales",
+        "category": ["cadete", "junior", "senior"],
+        "level": ["intermedio", "avanzado"],
+        "description": "Práctica de situaciones de final de partido y banda: último ataque, banda lateral, banda de fondo, tiros libres decisivos. Enseña presión, ejecución bajo presión y gestión del tiempo.",
+        "explanation": "Simular situaciones de partido: último ataque con 10 segundos, banda lateral con 5 segundos, tiros libres para empatar/ganar. Repetir cada situación múltiples veces. Desarrolla mentalidad competitiva.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 20,
+        "equipment": ["balones", "canasta", "cronometro"],
+        "focus": ["situaciones_especiales", "presion", "mentalidad"]
+      },
+      {
+        "id": "jue_003",
+        "name": "Competencia de tiros",
+        "category": ["iniciacion", "infantil", "cadete", "junior", "senior"],
+        "level": ["principiante", "intermedio", "avanzado"],
+        "description": "Competiciones de tiro con diferentes formatos",
+        "explanation": "Diferentes formatos: Horse, Around the World, 21, competencia de triples. Fomenta la competencia amistosa, mejora el tiro bajo presión y desarrolla mentalidad ganadora.",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "duration": 15,
+        "equipment": ["balones", "canasta"],
+        "focus": ["tiro", "competicion", "presion"]
+      }
+    ]
+  },
+  "categories": {
+    "iniciacion": {
+      "name": "Iniciación",
+      "age_range": "6-9 años",
+      "description": "Introducción al baloncesto con enfoque en diversión y habilidades básicas"
+    },
+    "infantil": {
+      "name": "Infantil",
+      "age_range": "10-12 años",
+      "description": "Desarrollo de técnica básica y comprensión del juego"
+    },
+    "cadete": {
+      "name": "Cadete",
+      "age_range": "13-15 años",
+      "description": "Perfeccionamiento técnico e introducción a conceptos tácticos"
+    },
+    "junior": {
+      "name": "Junior",
+      "age_range": "16-18 años",
+      "description": "Desarrollo avanzado de habilidades y preparación para competición"
+    },
+    "senior": {
+      "name": "Sénior",
+      "age_range": "18+ años",
+      "description": "Nivel competitivo con sistemas complejos y preparación física específica"
+    }
+  },
+  "levels": {
+    "principiante": {
+      "name": "Principiante",
+      "description": "Jugadores nuevos o con poca experiencia"
+    },
+    "intermedio": {
+      "name": "Intermedio",
+      "description": "Jugadores con experiencia y técnica básica consolidada"
+    },
+    "avanzado": {
+      "name": "Avanzado",
+      "description": "Jugadores con alta experiencia y habilidades avanzadas"
+    }
+  },
+  "durations": {
+    "practice": {
+      "name": "1 Práctica",
+      "sessions": 1
+    },
+    "week": {
+      "name": "1 Semana",
+      "sessions": 3
+    },
+    "month": {
+      "name": "1 Mes",
+      "sessions": 12
+    },
+    "quarter": {
+      "name": "3 Meses",
+      "sessions": 36
+    },
+    "year": {
+      "name": "1 Año",
+      "sessions": 48
+    }
+  }
+}
