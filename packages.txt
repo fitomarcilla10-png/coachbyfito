@@ -1,2 +1,1 @@
-# System dependencies for Streamlit Cloud deployment
-# This file is optional and only needed if your app requires system-level packages
+Fix: Remove comments from packages.txt
