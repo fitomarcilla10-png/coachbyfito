@@ -1,153 +1,406 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-import numpy as np
+import json
+from datetime import datetime
+from utils.exercise_db import ExerciseDatabase
+from utils.plan_generator import PlanGenerator
 
-# Configuración de la página
+
+# Page configuration
 st.set_page_config(
-    page_title="CoachBoard - Baloncesto",
+    page_title="Basketball Training Planner",
     page_icon="🏀",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Inicializar estados de sesión para simular una base de datos temporal
-if 'players_db' not in st.session_state:
-    st.session_state.players_db = pd.DataFrame([
-        {"Jugador": "S. Curry", "Puntos": 28, "Asistencias": 7, "Rebotes": 4, "Posición": "Base"},
-        {"Jugador": "L. James", "Puntos": 25, "Asistencias": 8, "Rebotes": 8, "Posición": "Alero"},
-        {"Jugador": "N. Jokic", "Puntos": 26, "Asistencias": 9, "Rebotes": 12, "Posición": "Pívot"}
-    ])
+# Custom CSS
+st.markdown("""
+<style>
+    .main-header {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1f77b4;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .exercise-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        background-color: #f9f9f9;
+    }
+    .session-header {
+        background-color: #1f77b4;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+    .objective-item {
+        background-color: #e8f4f8;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border-left: 4px solid #1f77b4;
+        border-radius: 4px;
+    }
+    .focus-tag {
+        display: inline-block;
+        background-color: #ff6b6b;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        margin: 0.25rem;
+        font-size: 0.85rem;
+    }
+</style>
+""", unsafe_allow_html=True)
 
-# Título Principal
-st.title("🏀 CoachBoard: Asistente del Entrenador")
-st.markdown("Herramienta interactiva para planificar jugadas y analizar estadísticas del equipo.")
 
-# Sidebar - Navegación de la App
-st.sidebar.header("Menú del Coach")
-menu = st.sidebar.radio(
-    "Selecciona una herramienta:",
-    ["📊 Análisis de Estadísticas", "📋 Pizarra de Jugadas", "📝 Registro de Jugadores"]
-)
+def initialize_session_state():
+    if 'db' not in st.session_state:
+        st.session_state.db = ExerciseDatabase()
+    if 'generator' not in st.session_state:
+        st.session_state.generator = PlanGenerator(st.session_state.db)
+    if 'current_plan' not in st.session_state:
+        st.session_state.current_plan = None
+    if 'selected_session' not in st.session_state:
+        st.session_state.selected_session = None
 
-# ==========================================
-# SECCIÓN 1: ANÁLISIS DE ESTADÍSTICAS
-# ==========================================
-if menu == "📊 Análisis de Estadísticas":
-    st.header("📊 Rendimiento del Equipo")
+
+def render_sidebar():
+    st.sidebar.title("⚙️ Configuración")
     
-    # KPIs rápidos
-    df = st.session_state.players_db
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Máximo Anotador", f"{df.loc[df['Puntos'].idxmax()]['Jugador']} ({df['Puntos'].max()} pts)")
-    col2.metric("Líder Asistencias", f"{df.loc[df['Asistencias'].idxmax()]['Jugador']} ({df['Asistencias'].max()} ast)")
-    col3.metric("Líder Rebotes", f"{df.loc[df['Rebotes'].idxmax()]['Jugador']} ({df['Rebotes'].max()} reb)")
-    
-    st.write("---")
-    
-    # Gráficos de rendimiento interactivos
-    st.subheader("Comparativa de Atributos por Jugador")
-    metric_selected = st.selectbox("Selecciona métrica para comparar:", ["Puntos", "Asistencias", "Rebotes"])
-    
-    fig = px.bar(
-        df, 
-        x="Jugador", 
-        y=metric_selected, 
-        color="Posición",
-        text_auto=True,
-        title=f"Distribución de {metric_selected} en la plantilla",
-        color_discrete_sequence=px.colors.qualitative.Pastel
+    # Category selection
+    categories = st.session_state.db.get_category_names()
+    category_display = {cat: st.session_state.db.get_category_info(cat)['name'] 
+                       for cat in categories}
+    selected_category = st.sidebar.selectbox(
+        "Categoría",
+        options=list(category_display.keys()),
+        format_func=lambda x: category_display[x],
+        key="category_select"
     )
-    st.plotly_chart(fig, use_container_width=True)
-
-# ==========================================
-# SECCIÓN 2: PIZARRA DE JUGADAS
-# ==========================================
-elif menu == "📋 Pizarra de Jugadas":
-    st.header("📋 Pizarra Táctica")
-    st.markdown("Configura de manera simulada la posición de tus jugadores en media cancha para explicar una táctica.")
-
-    # Selectores interactivos para posicionar 3 atacantes en la pizarra
-    col_c1, col_c2, col_c3 = st.columns(3)
-    with col_c1:
-        base_x = st.slider("Base (X)", -10.0, 10.0, 0.0, step=0.5)
-        base_y = st.slider("Base (Y)", 0.0, 15.0, 12.0, step=0.5)
-    with col_c2:
-        alero_x = st.slider("Alero (X)", -10.0, 10.0, -8.0, step=0.5)
-        alero_y = st.slider("Alero (Y)", 0.0, 15.0, 8.0, step=0.5)
-    with col_c3:
-        pivot_x = st.slider("Pívot (X)", -10.0, 10.0, 2.0, step=0.5)
-        pivot_y = st.slider("Pívot (Y)", 0.0, 15.0, 3.0, step=0.5)
-
-    # Dibujando la media cancha con Plotly
-    fig_court = go.Figure()
-
-    # Añadir línea de fondo y bandas laterales
-    fig_court.add_shape(type="rect", x0=-11, y0=0, x1=11, y1=15, line_color="black", fillcolor="rgba(0,0,0,0)")
-    # Añadir zona / llave
-    fig_court.add_shape(type="rect", x0=-3, y0=0, x1=3, y1=5.8, line_color="black", fillcolor="rgba(240,240,240,0.3)")
-    # Añadir el aro (simulado)
-    fig_court.add_trace(go.Scatter(x=[0], y=[1.5], mode="markers", marker=dict(size=10, color="orange"), name="Aro"))
     
-    # Dibujar la línea de 3 puntos (semi-elipse simplificada)
-    theta = np.linspace(0, np.pi, 100)
-    three_x = 8.5 * np.cos(theta)
-    three_y = 8.5 * np.sin(theta) + 1.5
-    fig_court.add_trace(go.Scatter(x=three_x, y=three_y, mode="lines", line=dict(color="gray", dash="dash"), name="Línea de 3"))
-
-    # Graficar Jugadores en base a los sliders de arriba
-    fig_court.add_trace(go.Scatter(
-        x=[base_x, alero_x, pivot_x],
-        y=[base_y, alero_y, pivot_y],
-        mode="markers+text",
-        text=["Base 1", "Alero 3", "Pívot 5"],
-        textposition="top center",
-        marker=dict(size=18, color="blue"),
-        name="Atacantes"
-    ))
-
-    fig_court.update_layout(
-        title="Posicionamiento Táctico (Media Cancha)",
-        xaxis=dict(range=[-12, 12], showgrid=False, zeroline=False),
-        yaxis=dict(range=[0, 16], showgrid=False, zeroline=False),
-        width=700,
-        height=500,
-        showlegend=False
+    # Display category info
+    cat_info = st.session_state.db.get_category_info(selected_category)
+    st.sidebar.info(f"**Rango de edad:** {cat_info['age_range']}\n\n{cat_info['description']}")
+    
+    # Level selection
+    levels = st.session_state.db.get_level_names()
+    level_display = {lvl: st.session_state.db.get_level_info(lvl)['name'] 
+                    for lvl in levels}
+    selected_level = st.sidebar.selectbox(
+        "Nivel",
+        options=list(level_display.keys()),
+        format_func=lambda x: level_display[x],
+        key="level_select"
     )
-
-    st.plotly_chart(fig_court, use_container_width=True)
     
-    # Notas tácticas
-    st.subheader("Instrucciones de la Jugada")
-    st.text_area("Escribe aquí las indicaciones para tu equipo:", "Ejemplo: El base inicia penetración buscando pase de escape al alero en la esquina o descarga directa con el pívot rolador.")
+    # Display level info
+    lvl_info = st.session_state.db.get_level_info(selected_level)
+    st.sidebar.info(lvl_info['description'])
+    
+    # Duration selection
+    durations = st.session_state.db.get_duration_names()
+    duration_display = {dur: st.session_state.db.get_duration_info(dur)['name'] 
+                       for dur in durations}
+    selected_duration = st.sidebar.selectbox(
+        "Duración del plan",
+        options=list(duration_display.keys()),
+        format_func=lambda x: duration_display[x],
+        key="duration_select"
+    )
+    
+    # Start date
+    start_date = st.sidebar.date_input(
+        "Fecha de inicio",
+        value=datetime.now(),
+        key="start_date"
+    )
+    
+    # Generate button
+    if st.sidebar.button("🏀 Generar Plan", use_container_width=True, type="primary"):
+        with st.spinner("Generando plan de entrenamiento..."):
+            plan = st.session_state.generator.generate_plan(
+                selected_category,
+                selected_level,
+                selected_duration,
+                start_date.strftime('%Y-%m-%d')
+            )
+            st.session_state.current_plan = plan
+            st.session_state.selected_session = None
+            st.success("¡Plan generado exitosamente!")
+    
+    return selected_category, selected_level, selected_duration
 
-# ==========================================
-# SECCIÓN 3: REGISTRO DE JUGADORES
-# ==========================================
-elif menu == "📝 Registro de Jugadores":
-    st.header("📝 Gestión de Plantilla")
-    st.write("Agrega nuevos jugadores o edita las estadísticas actuales directamente en la tabla.")
 
-    # Formulario para añadir jugador
-    with st.form("add_player_form", clear_on_submit=True):
-        st.subheader("Añadir Nuevo Jugador")
-        col_f1, col_f2 = st.columns(2)
-        with col_f1:
-            new_name = st.text_input("Nombre del Jugador")
-            new_pos = st.selectbox("Posición", ["Base", "Escolta", "Alero", "Ala-Pívot", "Pívot"])
-        with col_f2:
-            new_pts = st.number_input("Puntos Promedio", min_value=0, max_value=100, value=10)
-            new_ast = st.number_input("Asistencias Promedio", min_value=0, max_value=50, value=2)
-            new_reb = st.number_input("Rebotes Promedio", min_value=0, max_value=50, value=2)
+def render_plan_overview(plan):
+    st.markdown('<div class="main-header">📋 Plan de Entrenamiento</div>', unsafe_allow_html=True)
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Categoría", st.session_state.db.get_category_info(plan.category)['name'])
+    
+    with col2:
+        st.metric("Nivel", st.session_state.db.get_level_info(plan.level)['name'])
+    
+    with col3:
+        st.metric("Duración", st.session_state.db.get_duration_info(plan.duration_type)['name'])
+    
+    with col4:
+        st.metric("Total Sesiones", plan.total_sessions)
+    
+    st.markdown(f"**📅 Periodo:** {plan.start_date} a {plan.end_date}")
+    
+    # Session selector
+    st.markdown("---")
+    st.markdown("### 📅 Seleccionar Sesión")
+    
+    session_options = [f"Sesión {s.session_number} - {s.date}" for s in plan.sessions]
+    selected_idx = st.selectbox(
+        "Elige una sesión para ver detalles:",
+        range(len(session_options)),
+        format_func=lambda x: session_options[x]
+    )
+    
+    st.session_state.selected_session = plan.sessions[selected_idx]
+    
+    return plan.sessions[selected_idx]
+
+
+def render_session_details(session):
+    st.markdown(f'<div class="session-header">🏀 Sesión {session.session_number} - {session.date}</div>', 
+                unsafe_allow_html=True)
+    
+    # Session metrics
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric("Duración Total", f"{session.total_duration} minutos")
+    
+    with col2:
+        st.metric("Ejercicios", len(session.exercises))
+    
+    # Objectives
+    st.markdown("### 🎯 Objetivos de la Sesión")
+    for obj in session.objectives:
+        st.markdown(f'<div class="objective-item">✓ {obj}</div>', unsafe_allow_html=True)
+    
+    # Focus areas
+    st.markdown("### 🎯 Áreas de Enfoque")
+    for focus in session.focus_areas:
+        st.markdown(f'<span class="focus-tag">{focus}</span>', unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Exercises
+    st.markdown("### 🏋️ Ejercicios")
+    
+    for i, exercise in enumerate(session.exercises, 1):
+        with st.expander(f"{i}. {exercise.name} ({exercise.duration} min)", expanded=True):
+            st.markdown(f"**Descripción:** {exercise.description}")
+            st.markdown(f"**Explicación:** {exercise.explanation}")
             
-        submitted = st.form_submit_value("Guardar Jugador")
-        if submitted and new_name:
-            # Crear nueva fila y concatenar
-            new_row = pd.DataFrame([{"Jugador": new_name, "Puntos": new_pts, "Asistencias": new_ast, "Rebotes": new_reb, "Posición": new_pos}])
-            st.session_state.players_db = pd.concat([st.session_state.players_db, new_row], ignore_index=True)
-            st.success(f"¡{new_name} agregado con éxito!")
-            st.rerun()
+            # Equipment
+            if exercise.equipment:
+                st.markdown(f"**Material necesario:** {', '.join(exercise.equipment)}")
+            
+            # Focus areas
+            st.markdown(f"**Enfoque:** {', '.join(exercise.focus)}")
+            
+            # Video
+            if exercise.video:
+                st.markdown(f"**🎥 Video:** [Ver video]({exercise.video})")
+                st.video(exercise.video)
+    
+    # Download session as JSON
+    st.markdown("---")
+    session_data = {
+        "session_number": session.session_number,
+        "date": session.date,
+        "objectives": session.objectives,
+        "focus_areas": session.focus_areas,
+        "exercises": [
+            {
+                "name": ex.name,
+                "description": ex.description,
+                "explanation": ex.explanation,
+                "video": ex.video,
+                "duration": ex.duration,
+                "equipment": ex.equipment,
+                "focus": ex.focus
+            }
+            for ex in session.exercises
+        ]
+    }
+    
+    st.download_button(
+        label="📥 Descargar Sesión (JSON)",
+        data=json.dumps(session_data, indent=2, ensure_ascii=False),
+        file_name=f"sesion_{session.session_number}_{session.date}.json",
+        mime="application/json"
+    )
 
-    # Mostrar tabla actual
-    st.subheader("Plantilla Actual")
-    st.dataframe(st.session_state.players_db, use_container_width=True)
+
+def render_full_plan_export(plan):
+    st.markdown("---")
+    st.markdown("### 📥 Exportar Plan Completo")
+    
+    plan_dict = st.session_state.generator.plan_to_dict(plan)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.download_button(
+            label="📥 Descargar Plan (JSON)",
+            data=json.dumps(plan_dict, indent=2, ensure_ascii=False),
+            file_name=f"plan_entrenamiento_{plan.start_date}_{plan.end_date}.json",
+            mime="application/json",
+            use_container_width=True
+        )
+    
+    with col2:
+        # Generate text summary
+        summary = f"PLAN DE ENTRENAMIENTO - BALONCESTO\n"
+        summary += f"{'='*50}\n\n"
+        summary += f"Categoría: {st.session_state.db.get_category_info(plan.category)['name']}\n"
+        summary += f"Nivel: {st.session_state.db.get_level_info(plan.level)['name']}\n"
+        summary += f"Duración: {st.session_state.db.get_duration_info(plan.duration_type)['name']}\n"
+        summary += f"Periodo: {plan.start_date} a {plan.end_date}\n"
+        summary += f"Total Sesiones: {plan.total_sessions}\n\n"
+        summary += f"{'='*50}\n\n"
+        
+        for session in plan.sessions:
+            summary += st.session_state.generator.get_session_summary(session)
+            summary += "\n" + "-"*50 + "\n\n"
+        
+        st.download_button(
+            label="📄 Descargar Resumen (TXT)",
+            data=summary,
+            file_name=f"resumen_plan_{plan.start_date}_{plan.end_date}.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
+
+
+def render_exercise_browser():
+    st.markdown('<div class="main-header">📚 Explorador de Ejercicios</div>', unsafe_allow_html=True)
+    
+    # Filters
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        categories = st.session_state.db.get_category_names()
+        category_display = {cat: st.session_state.db.get_category_info(cat)['name'] 
+                           for cat in categories}
+        selected_category = st.selectbox(
+            "Filtrar por categoría",
+            options=["Todas"] + list(category_display.keys()),
+            format_func=lambda x: category_display.get(x, x)
+        )
+    
+    with col2:
+        levels = st.session_state.db.get_level_names()
+        level_display = {lvl: st.session_state.db.get_level_info(lvl)['name'] 
+                        for lvl in levels}
+        selected_level = st.selectbox(
+            "Filtrar por nivel",
+            options=["Todos"] + list(level_display.keys()),
+            format_func=lambda x: level_display.get(x, x)
+        )
+    
+    with col3:
+        exercise_types = st.session_state.db.get_exercise_types()
+        selected_type = st.selectbox(
+            "Filtrar por tipo",
+            options=["Todos"] + exercise_types
+        )
+    
+    # Get filtered exercises
+    if selected_category == "Todas":
+        categories = st.session_state.db.get_category_names()
+    else:
+        categories = [selected_category]
+    
+    if selected_level == "Todos":
+        levels = st.session_state.db.get_level_names()
+    else:
+        levels = [selected_level]
+    
+    if selected_type == "Todos":
+        types = st.session_state.db.get_exercise_types()
+    else:
+        types = [selected_type]
+    
+    filtered_exercises = []
+    for cat in categories:
+        for lvl in levels:
+            for ex_type in types:
+                exercises = st.session_state.db.filter_exercises(cat, lvl, [ex_type])
+                filtered_exercises.extend(exercises)
+    
+    # Remove duplicates
+    seen_ids = set()
+    unique_exercises = []
+    for ex in filtered_exercises:
+        if ex.id not in seen_ids:
+            seen_ids.add(ex.id)
+            unique_exercises.append(ex)
+    
+    st.markdown(f"**{len(unique_exercises)} ejercicios encontrados**")
+    
+    # Display exercises
+    for exercise in unique_exercises:
+        with st.expander(f"🏋️ {exercise.name}", expanded=False):
+            col1, col2 = st.columns([2, 1])
+            
+            with col1:
+                st.markdown(f"**Descripción:** {exercise.description}")
+                st.markdown(f"**Explicación:** {exercise.explanation}")
+                st.markdown(f"**Duración:** {exercise.duration} minutos")
+                st.markdown(f"**Material:** {', '.join(exercise.equipment) if exercise.equipment else 'Ninguno'}")
+                st.markdown(f"**Enfoque:** {', '.join(exercise.focus)}")
+                st.markdown(f"**Categorías:** {', '.join(exercise.category)}")
+                st.markdown(f"**Niveles:** {', '.join(exercise.level)}")
+            
+            with col2:
+                if exercise.video:
+                    st.markdown("**🎥 Video:**")
+                    st.video(exercise.video)
+
+
+def main():
+    initialize_session_state()
+    
+    # Page navigation
+    page = st.sidebar.radio(
+        "Navegación",
+        ["🏀 Generar Plan", "📚 Explorar Ejercicios"],
+        label_visibility="collapsed"
+    )
+    
+    if page == "🏀 Generar Plan":
+        selected_category, selected_level, selected_duration = render_sidebar()
+        
+        if st.session_state.current_plan:
+            plan = st.session_state.current_plan
+            session = render_plan_overview(plan)
+            render_session_details(session)
+            render_full_plan_export(plan)
+        else:
+            st.markdown("""
+            <div style='text-align: center; padding: 2rem;'>
+                <h2>🏀 Bienvenido al Generador de Planes de Entrenamiento</h2>
+                <p>Selecciona la configuración en el panel lateral y genera tu plan personalizado.</p>
+                <p>El sistema creará un plan completo con ejercicios adaptados a tu categoría y nivel.</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    elif page == "📚 Explorar Ejercicios":
+        render_exercise_browser()
+
+
+if __name__ == "__main__":
+    main()
