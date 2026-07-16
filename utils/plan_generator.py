@@ -2,10 +2,8 @@ import random
 from typing import List, Dict
 from datetime import datetime, timedelta
 from dataclasses import dataclass
-from exercise_db import ExerciseDatabase, Exercise
+from utils.exercise_db import ExerciseDatabase, Exercise
 
-
-@dataclass
 class TrainingSession:
     session_number: int
     date: str
