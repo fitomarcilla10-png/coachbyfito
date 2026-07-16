@@ -99,12 +99,13 @@ class PlanGenerator:
                 # Add focus areas from exercises
                 for ex in selected:
                     focus_areas.extend(ex.focus)
-        
-        # Remove duplicates from focus areas
-        focus_areas = list(set(focus_areas))
-        
-        # Generate session objectives
-        objectives = self._generate_objectives(session_number, category, level, focus_areas)
+        # Add focus areas from exercises
+for ex in selected:
+    if ex.focus:
+        focus_areas.extend(ex.focus)
+
+# Remove duplicates from focus areas
+focus_areas = list(set(focus_areas)) if focus_areas else []tives = self._generate_objectives(session_number, category, level, focus_areas)
         
         return TrainingSession(
             session_number=session_number,
