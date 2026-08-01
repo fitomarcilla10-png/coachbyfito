@@ -13,17 +13,7 @@ if "GEMINI_API_KEY" not in st.secrets:
 
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# --- 2. SELECCIÓN AUTOMÁTICA DE MODELO (Solución al error 404) ---
-modelos_validos = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-
-if not modelos_validos:
-    st.error("Tu clave API no tiene acceso a modelos de generación de texto.")
-    st.stop()
-
-nombre_modelo = next((m for m in modelos_validos if 'flash' in m), modelos_validos[0])
-modelo = genai.GenerativeModel(nombre_modelo)
-
-# --- 3. MEMORIA DE LA APP (Session State) ---
+# --- 2. MEMORIA DE LA APP (Session State) ---
 if "historial_chat" not in st.session_state:
     st.session_state.historial_chat = []
 if "plan_actual" not in st.session_state:
@@ -35,9 +25,9 @@ if "plantel" not in st.session_state:
         "Minutos Jugados": [0, 0, 0, 0, 0]
     })
 
-# --- 4. MOTOR DE GENERACIÓN IA ---
+# --- 3. MOTOR DE GENERACIÓN IA (Con sistema anticaídas) ---
 def generar_ciclo_integral(categoria, sesiones, tec_indiv, tec_equipo, tactica):
-    prompt = f'''
+    prompt = f"""
     Actúa como un Entrenador Jefe experto. Diseña un ciclo de {sesiones} entrenamientos consecutivos para la categoría {categoria}.
     
     Debes integrar estos tres contenidos de forma progresiva a lo largo de las {sesiones} clases:
@@ -48,6 +38,24 @@ def generar_ciclo_integral(categoria, sesiones, tec_indiv, tec_equipo, tactica):
     Formato para cada clase (Día 1 al Día {sesiones}):
     ### Clase X
     *   **Técnica Individual (15m):** [Ejercicio y foco]
+    *   **Técnica Colectiva (20m):** [Ejercicio y foco]
+    *   **Situación Táctica (25m):** [Desarrollo del contenido táctico]
+    ---
+    """
+    
+    try:
+        # Intento 1: Usar el modelo más rápido y moderno
+        modelo = genai.GenerativeModel('gemini-1.5-flash')
+        respuesta = modelo.generate_content(prompt)
+        return respuesta.text
+    except Exception as e:
+        try:
+            # Intento 2: Si el primero falla, usar el modelo base estable
+            modelo_respaldo = genai.GenerativeModel('gemini-1.0-pro')
+            respuesta = modelo_respaldo.generate_content(prompt)
+            return respuesta.text
+        except Exception as e_final:
+            return f"❌ Error crítico de API: {e_final}. Por favor, verifica que tu API Key empiece con 'AIza' y haya sido creada en AI Studio."    *   **Técnica Individual (15m):** [Ejercicio y foco]
     *   **Técnica Colectiva (20m):** [Ejercicio y foco]
     *   **Situación Táctica (25m):** [Desarrollo del contenido táctico]
     ---
