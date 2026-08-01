@@ -10,7 +10,7 @@ if "GEMINI_API_KEY" not in st.secrets:
     st.stop()
 
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-modelo = genai.GenerativeModel('gemini-1.0-pro') 
+modelo = genai.GenerativeModel('gemini-3.6-flash') 
 
 # 3. Función de Generación Avanzada (Inyectando la base de datos conceptual)
 def generar_sesion_avanzada(categoria, duracion, nivel, foco_principal, foco_secundario):
