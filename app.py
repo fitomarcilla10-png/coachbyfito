@@ -14,14 +14,12 @@ if "GEMINI_API_KEY" not in st.secrets:
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # --- 2. SELECCIÓN AUTOMÁTICA DE MODELO (Solución al error 404) ---
-# Obtenemos los modelos disponibles para tu API KEY
 modelos_validos = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
 
 if not modelos_validos:
     st.error("Tu clave API no tiene acceso a modelos de generación de texto.")
     st.stop()
 
-# Elegimos el mejor modelo disponible (prioridad a "flash", sino el primero estable)
 nombre_modelo = next((m for m in modelos_validos if 'flash' in m), modelos_validos[0])
 modelo = genai.GenerativeModel(nombre_modelo)
 
@@ -174,16 +172,18 @@ with tab_chat:
     if prompt_usuario := st.chat_input("Ej: Ajusta la clase 3 para que sea más intensa..."):
         with st.chat_message("user"):
             st.write(prompt_usuario)
+        
         st.session_state.historial_chat.append({"rol": "usuario", "contenido": prompt_usuario})
         
-      contexto = f"""
-        Plan actual: 
+        contexto = f"""
+        Plan actual:
         {st.session_state.plan_actual}
         
         El entrenador pide: {prompt_usuario}
         
         Responde ajustando el plan.
         """
+        
         with st.spinner("Analizando..."):
             respuesta_chat = modelo.generate_content(contexto)
             with st.chat_message("assistant"):
