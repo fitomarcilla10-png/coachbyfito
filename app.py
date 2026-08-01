@@ -7,7 +7,7 @@ st.set_page_config(page_title="Asistente IA de Entrenamientos", page_icon="🏀"
 # 2. Configurar la API de Gemini
 try:
     genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-    modelo = genai.GenerativeModel('gemini-pro')
+    modelo = genai.GenerativeModel('gemini-1.0-pro')
 except KeyError:
     st.error("Falta configurar la GEMINI_API_KEY en los secretos de Streamlit.")
     st.stop()
