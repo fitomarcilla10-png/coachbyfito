@@ -176,12 +176,14 @@ with tab_chat:
             st.write(prompt_usuario)
         st.session_state.historial_chat.append({"rol": "usuario", "contenido": prompt_usuario})
         
-        contexto = f"Plan actual:
-{st.session_state.plan_actual}
-
-El entrenador pide: {prompt_usuario}
-Responde ajustando el plan."
+      contexto = f"""
+        Plan actual: 
+        {st.session_state.plan_actual}
         
+        El entrenador pide: {prompt_usuario}
+        
+        Responde ajustando el plan.
+        """
         with st.spinner("Analizando..."):
             respuesta_chat = modelo.generate_content(contexto)
             with st.chat_message("assistant"):
